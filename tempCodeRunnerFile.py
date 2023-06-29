@@ -1,27 +1,25 @@
 import cv2
 import face_recognition
-
-import cv2
 from simple_facerec import SimpleFacerec
 
-
-img = cv2.imread("chris.jpg")  # Load image
+img = cv2.imread("R.jpg")
 rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 img_encoding = face_recognition.face_encodings(rgb_img)[0]
 
-img2 = cv2.imread("images/chris.jpg")  # Load image
+img2 = cv2.imread("images/chris.jpg")
 rgb_img2 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB)
-img_encoding2 = face_recognition.face_encodings(rgb_img2)[0]
+face_encodings2 = face_recognition.face_encodings(rgb_img2)
 
-
-result = face_recognition.compare_faces([img_encoding], img_encoding2)
-print("Result: ", result)
-
+if len(face_encodings2) > 0:
+    img_encoding2 = face_encodings2[0]
+    result = face_recognition.compare_faces([img_encoding], img_encoding2)
+    print("Result: ", result)
+else:
+    print("No face detected in img2")
 
 # Encode faces from a folder
 sfr = SimpleFacerec()
-sfr.load_encoding_images("images/")
-
+sfr.load_encoding_images("images")
 
 # Load Camera
 cap = cv2.VideoCapture(0)
